@@ -1,7 +1,7 @@
 echo -e "\033[32mRemoving container master\033[0m"
 docker rm -f master
 
-echo -e "\033[32mRemoving container worker011\033[0m"
+echo -e "\033[32mRemoving container worker01\033[0m"
 docker rm -f worker01
 
 echo -e "\033[32mRemoving container worker02\033[0m"
