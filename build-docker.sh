@@ -25,11 +25,11 @@ docker exec worker02 bash -c "puppet apply --detailed-exitcodes --parser future 
 
 echo -e "\033[32mConfiguring hosts file\033[0m"
 MASTER_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' master`
-WORCKER01_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' worker01`
-WORCKER02_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' worker02`
-docker exec master bash -c "echo '$WORCKER01_IP      worker01' >> /etc/hosts"
-docker exec master bash -c "echo '$WORCKER02_IP      worker02' >> /etc/hosts"
-docker exec worcker01 bash -c "echo '$MASTER_IP      ambari-server' >> /etc/hosts"
-docker exec worcker01 bash -c "echo '$WORCKER02_IP      worcker02' >> /etc/hosts"
-docker exec worcker02 bash -c "echo '$MASTER_IP      ambari-server' >> /etc/hosts"
-docker exec worcker02 bash -c "echo '$WORCKER02_IP      worcker01' >> /etc/hosts"
+WORKER01_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' worker01`
+WORKER02_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' worker02`
+docker exec master bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
+docker exec master bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
+docker exec worker01 bash -c "echo '$MASTER_IP      ambari-server' >> /etc/hosts"
+docker exec worker01 bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
+docker exec worker02 bash -c "echo '$MASTER_IP      ambari-server' >> /etc/hosts"
+docker exec worker02 bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
