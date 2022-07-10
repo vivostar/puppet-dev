@@ -6,7 +6,7 @@ RUN puppet module install puppetlabs-stdlib --version 4.12.0
 RUN git clone https://github.com/vivostar/bw.git /bigtop_home
 RUN cp -f /bigtop_home/bigtop-deploy/puppet/hiera.yaml /etc/puppet
 RUN mkdir -p /etc/puppet/hieradata
-RUN rsync -a --delete /bigtop_home/bigtop-deploy/puppet/hieradata/bigtop /etc/puppet/hieradata
+RUN rsync -a --delete /bigtop_home/bigtop-deploy/puppet/hieradata /etc/puppet
 
 
 RUN /bin/sed -i 's,#   StrictHostKeyChecking ask,StrictHostKeyChecking no,g' /etc/ssh/ssh_config
