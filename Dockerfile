@@ -3,7 +3,7 @@ FROM centos:7
 RUN yum -y install hostname curl sudo unzip wget rubygems git
 RUN gem install --bindir /usr/bin --no-ri --no-rdoc json_pure:2.5.1 puppet:3.6.2
 RUN puppet module install puppetlabs-stdlib --version 4.12.0
-RUN git clone /bigtop_home https://github.com/vivostar/bw.git
+RUN git clone https://github.com/vivostar/bw.git /bigtop_home
 RUN cp -f /bigtop_home/bigtop-deploy/puppet/hiera.yaml /etc/puppet
 RUN mkdir -p /etc/puppet/hieradata
 RUN rsync -a --delete /bigtop_home/bigtop-deploy/puppet/hieradata/bigtop /etc/puppet/hieradata
