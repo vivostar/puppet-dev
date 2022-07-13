@@ -5,20 +5,20 @@ echo -e "\033[32mCreating network bigtop\033[0m"
 docker network create --driver bridge bigtop
 
 echo -e "\033[32mCreating docker cluster master\033[0m"
-docker run -d -p 50070:50070 -p 8088:8088 -p 10000:10000 --name master --hostname master --network bigtop --privileged -e "container=docker" bigtop:3.1.0 /usr/sbin/init
+docker run -d -p 50070:50070 -p 8088:8088 -p 10000:10000 --name master --hostname master --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
 SERVER_PUB_KEY=`docker exec master /bin/cat /root/.ssh/id_rsa.pub`
 docker exec master bash -c "echo '$SERVER_PUB_KEY' > /root/.ssh/authorized_keys"
 docker exec master /bin/systemctl enable sshd
 docker exec master /bin/systemctl start sshd
 
 echo -e "\033[32mCreating docker cluster worker01\033[0m"
-docker run -d --name worker01 --hostname worker01 --network bigtop --privileged -e "container=docker" bigtop:3.1.0 /usr/sbin/init
+docker run -d --name worker01 --hostname worker01 --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
 
 echo -e "\033[32mCreating docker cluster worker02\033[0m"
-docker run -d --name worker02 --hostname worker02 --network bigtop --privileged -e "container=docker" bigtop:3.1.0 /usr/sbin/init
+docker run -d --name worker02 --hostname worker02 --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
 
 echo -e "\033[32mCreating docker cluster hue\033[0m"
-docker run -d --name hue -p 8888:8888 --hostname hue --network bigtop --privileged -e "container=docker" hue:4.10.1
+docker run -d --name hue -p 8888:8888 --hostname hue --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro hue:4.10.1
 
 echo -e "\033[32mConfiguring hosts file\033[0m"
 MASTER_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' master`
